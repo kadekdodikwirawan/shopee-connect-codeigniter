@@ -5,9 +5,9 @@ Toko terkoneksi dengan Shopee public Api
 ## clone repo
 ## Install
 
-'composer install'
+`composer install`
 
-'php spark serve'
+`php spark serve`
 
 # CodeIgniter 4 Framework
 
