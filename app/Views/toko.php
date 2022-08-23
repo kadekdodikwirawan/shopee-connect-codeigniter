@@ -35,31 +35,32 @@
                             </div>
                         </div>
                         <div class="row products">
-                            <?php print_r($hotdeal) ?>
-                            <div class="col-lg-3 col-md-4">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid" /></a>
+                            <?php foreach ($bestsell->data->sections[0]->data->item as $key => $value) { ?>
+                                <div class="col-lg-3 col-md-4">
+                                    <div class="product">
+                                        <div class="flip-container">
+                                            <div class="flipper">
+                                                <div class="front">
+                                                    <a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid" /></a>
+                                                </div>
+                                                <div class="back">
+                                                    <a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid" /></a>
+                                                </div>
                                             </div>
                                         </div>
+                                        <a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid" /></a>
+                                        <div class="text">
+                                            <h3><a href="detail.html">Fur coat with very but very very long name</a></h3>
+                                            <p class="price"><del></del>$143.00</p>
+                                            <p class="buttons">
+                                                <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </p>
+                                        </div>
+                                        <!-- /.text-->
                                     </div>
-                                    <a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid" /></a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">Fur coat with very but very very long name</a></h3>
-                                        <p class="price"><del></del>$143.00</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text-->
+                                    <!-- /.product            -->
                                 </div>
-                                <!-- /.product            -->
-                            </div>
+                            <?php } ?>
                             <div class="col-lg-3 col-md-4">
                                 <div class="product">
                                     <div class="flip-container">

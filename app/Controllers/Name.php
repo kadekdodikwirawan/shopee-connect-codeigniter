@@ -8,8 +8,9 @@ class Name extends BaseController
     {
         $uri = current_url(true);
         $username =  $uri->getSegment(1);
-        $userarray = ["usaha.lama_", "samsung.official", "himeku.id"];
-        if ($username !== "" && in_array($username, $userarray)) {
+        // $userarray = ["usaha.lama_", "samsung.official", "himeku.id"];
+        $userarray = [];
+        if ($username !== "" && !in_array($username, $userarray)) {
             $useragent = $this->userAgent();
             $ua = array_rand($useragent);
             $curl = curl_init();
@@ -37,6 +38,7 @@ class Name extends BaseController
                 $data['bestsell'] = $this->getBestsell($shopid);
                 $data['hotdeal'] = $this->gethotDeal($shopid);
                 $data['voucher'] = $this->getVoucher($shopid);
+                // dd($data);
                 return view('toko', $data);
             }
         } else {
@@ -67,6 +69,42 @@ class Name extends BaseController
         $json =  json_decode($response);
         return $json;
     }
+
+    public function getLink()
+    {
+        $product_link = $_POST['link'];
+        // $tokoref = $_POST['toko'];
+        $subId = 'promospesial';
+        $curl = curl_init();
+        $payload = '{"query":"mutation{\\r\\n  generateShortLink(input: {originUrl: \\"' . $product_link . '\\", subIds: \\"' . $subId . '\\" }){\\r\\n    shortLink\\r\\n  }\\r\\n}","variables":{}}';
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://open-api.affiliate.shopee.co.id/graphql',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: SHA256 Credential=11355710037, Timestamp=' . time() . ', Signature=' . hash('sha256', '11355710037' . time() . $payload . 'C2RPRP5F2HZXFFIU65VAVBW2MOIQNGYJ') . '',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        $json =  json_decode($response);
+
+        $shortLink =  $json->data->generateShortLink->shortLink;
+        if ($shortLink) {
+            echo $shortLink;
+        }
+    }
+
     public function getBestsell($shopid)
     {
         // https://shopee.co.id/api/v4/search/search_items?by=sales&limit=6&match_id=350055996&newest=0&order=desc&page_type=shop&scenario=PAGE_OTHERS&version=2
@@ -74,7 +112,7 @@ class Name extends BaseController
         $ua = array_rand($useragent);
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://shopee.co.id/api/v4/search/search_items?by=sales&limit=6&match_id=' . $shopid . '&newest=0&order=desc&page_type=shop&scenario=PAGE_OTHERS&version=2',
+            CURLOPT_URL => 'https://shopee.co.id/api/v4/recommend/recommend?bundle=shop_page_homepage&item_card=2&limit=20&offset=0&section=shop_page_homepage_hot_deals_sec&shopid=' . $shopid,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_USERAGENT => $useragent[$ua],
@@ -82,11 +120,12 @@ class Name extends BaseController
             CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_COOKIE => '',
             CURLOPT_CUSTOMREQUEST => 'GET',
         ));
 
         $response = curl_exec($curl);
-
+        // dd($response);
         curl_close($curl);
         $json =  json_decode($response);
         return $json;
