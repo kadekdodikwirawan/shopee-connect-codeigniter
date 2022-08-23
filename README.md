@@ -1,3 +1,14 @@
+# Shopee Connect
+
+Toko terkoneksi dengan Shopee public Api
+
+## clone repo
+## Install
+
+'composer install'
+
+'php spark serve'
+
 # CodeIgniter 4 Framework
 
 ## What is CodeIgniter?
