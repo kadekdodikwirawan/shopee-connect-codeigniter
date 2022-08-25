@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700" />
     <link rel="stylesheet" href="<?php echo base_url('/css/style.default.css') ?>" id="theme-stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" integrity="sha512-P0Ms+SM3w8aSbPa5U/nFoprxlUzG2FSz9h/A+2xhhE1hcH6RmGYK3dImFCvcSYuioM3UbbAtMbAopAuHLr94pA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 </head>
 
 <body>
@@ -29,16 +30,10 @@
                             <div class="row">
                                 <div class="col-md-12 col-lg-12 products-number-sort">
                                     <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
-                                        <div class="products-number">
-                                            <?php
-                                            if (isset($category->data->shop_categories)) {
-                                                foreach ($category->data->shop_categories as $cat) {
-                                            ?>
-                                                    <a href="#" class="btn btn-sm btn-primary"><?php echo $cat->display_name; ?></a>
-                                            <?php
-                                                }
-                                            }
-                                            ?>
+                                        <div class="products-number" x-data='{categories : <?php echo json_encode($category->data->shop_categories); ?>}'>
+                                            <template x-for="cat in categories">
+                                                <a href="#" class="btn btn-sm btn-primary" x-text="cat.display_name"></a>
+                                            </template>
                                         </div>
                                     </form>
                                 </div>
@@ -48,7 +43,6 @@
                             <?php
                             if (isset($bestsell->data->sections[0]->data->item)) {
                                 foreach ($bestsell->data->sections[0]->data->item as $key) {
-                                    // print_r($key);
                             ?>
                                     <div class="col-lg-3 col-md-4">
                                         <div class="product">
@@ -67,7 +61,7 @@
                                                 <h3><a href="detail.html"><?php echo $key->name; ?></a></h3>
                                                 <p class="price"><del></del><?php echo number_format($key->price / 100000); ?></p>
                                                 <p class="buttons">
-                                                    <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                    <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Beli Sekarang</a>
                                                 </p>
                                             </div>
                                             <!-- /.text-->
@@ -120,6 +114,8 @@
             </div>
         </div>
     </div>
+    <script>
+    </script>
 </body>
 
 </html>
