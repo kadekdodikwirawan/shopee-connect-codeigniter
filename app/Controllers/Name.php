@@ -35,6 +35,7 @@ class Name extends BaseController
             if ($toko) {
                 $shopid = $toko->shopid;
                 $data['toko'] = $toko;
+                $data['category'] = $this->get_category($shopid);
                 $data['bestsell'] = $this->getBestsell($shopid);
                 $data['hotdeal'] = $this->gethotDeal($shopid);
                 $data['voucher'] = $this->getVoucher($shopid);
@@ -46,13 +47,13 @@ class Name extends BaseController
         }
     }
 
-    public function getVoucher($shopid)
+    public function curl_get($url)
     {
         $useragent = $this->userAgent();
         $ua = array_rand($useragent);
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://shopee.co.id/api/v2/voucher_wallet/get_shop_vouchers_by_shopid?shopid=' . $shopid . '&with_claiming_status=false',
+            CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_USERAGENT => $useragent[$ua],
@@ -68,6 +69,24 @@ class Name extends BaseController
         curl_close($curl);
         $json =  json_decode($response);
         return $json;
+    }
+
+    public function get_category($shopid)
+    {
+        return $this->curl_get('https://shopee.co.id/api/v4/shop/get_categories?limit=20&offset=0&shopid=' . $shopid . '&version=2');
+    }
+    public function getVoucher($shopid)
+    {
+        return $this->curl_get('https://shopee.co.id/api/v2/voucher_wallet/get_shop_vouchers_by_shopid?shopid=' . $shopid . '&with_claiming_status=false');
+    }
+
+    public function getBestsell($shopid)
+    {
+        return $this->curl_get('https://shopee.co.id/api/v4/recommend/recommend?bundle=shop_page_homepage&item_card=2&limit=20&offset=0&section=shop_page_homepage_hot_deals_sec&shopid=' . $shopid);
+    }
+    public function gethotDeal($shopid)
+    {
+        return $this->curl_get('https://shopee.co.id/api/v4/shop/get_hot_deal_items?limit=6&offset=0&shopid=' . $shopid);
     }
 
     public function getLink()
@@ -103,56 +122,6 @@ class Name extends BaseController
         if ($shortLink) {
             echo $shortLink;
         }
-    }
-
-    public function getBestsell($shopid)
-    {
-        // https://shopee.co.id/api/v4/search/search_items?by=sales&limit=6&match_id=350055996&newest=0&order=desc&page_type=shop&scenario=PAGE_OTHERS&version=2
-        $useragent = $this->userAgent();
-        $ua = array_rand($useragent);
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://shopee.co.id/api/v4/recommend/recommend?bundle=shop_page_homepage&item_card=2&limit=20&offset=0&section=shop_page_homepage_hot_deals_sec&shopid=' . $shopid,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_USERAGENT => $useragent[$ua],
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_COOKIE => '',
-            CURLOPT_CUSTOMREQUEST => 'GET',
-        ));
-
-        $response = curl_exec($curl);
-        // dd($response);
-        curl_close($curl);
-        $json =  json_decode($response);
-        return $json;
-    }
-    public function gethotDeal($shopid)
-    {
-        // https://shopee.co.id/api/v4/shop/get_hot_deal_items?limit=20&offset=0&shopid=350055996
-        $useragent = $this->userAgent();
-        $ua = array_rand($useragent);
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://shopee.co.id/api/v4/shop/get_hot_deal_items?limit=6&offset=0&shopid=' . $shopid,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_USERAGENT => $useragent[$ua],
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        $json =  json_decode($response);
-        return $json;
     }
     public function userAgent()
     {

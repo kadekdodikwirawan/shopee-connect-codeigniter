@@ -27,248 +27,55 @@
                         </div>
                         <div class="box info-bar">
                             <div class="row">
-                                <div class="col-md-12 col-lg-7 products-number-sort">
+                                <div class="col-md-12 col-lg-12 products-number-sort">
                                     <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
-                                        <div class="products-number"><a href="#" class="btn btn-sm btn-primary">12</a><a href="#" class="btn btn-outline-secondary btn-sm">24</a><a href="#" class="btn btn-outline-secondary btn-sm">All</a><span>products</span></div>
+                                        <div class="products-number">
+                                            <?php
+                                            if (isset($category->data->shop_categories)) {
+                                                foreach ($category->data->shop_categories as $cat) {
+                                            ?>
+                                                    <a href="#" class="btn btn-sm btn-primary"><?php echo $cat->display_name; ?></a>
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <div class="row products">
-                            <?php foreach ($bestsell->data->sections[0]->data->item as $key => $value) { ?>
-                                <div class="col-lg-3 col-md-4">
-                                    <div class="product">
-                                        <div class="flip-container">
-                                            <div class="flipper">
-                                                <div class="front">
-                                                    <a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid" /></a>
+                            <?php
+                            if (isset($bestsell->data->sections[0]->data->item)) {
+                                foreach ($bestsell->data->sections[0]->data->item as $key) {
+                                    // print_r($key);
+                            ?>
+                                    <div class="col-lg-3 col-md-4">
+                                        <div class="product">
+                                            <div class="flip-container">
+                                                <div class="flipper">
+                                                    <div class="front">
+                                                        <a href="detail.html"><img src="https://cf.shopee.co.id/file/<?php echo $key->images[0]; ?>" alt="" class="img-fluid" /></a>
+                                                    </div>
+                                                    <div class="back">
+                                                        <a href="detail.html"><img src="https://cf.shopee.co.id/file/<?php echo $key->images[1]; ?>" alt="" class="img-fluid" /></a>
+                                                    </div>
                                                 </div>
-                                                <div class="back">
-                                                    <a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid" /></a>
-                                                </div>
                                             </div>
+                                            <a href="detail.html" class="invisible"><img src="https://cf.shopee.co.id/file/<?php echo $key->images[0]; ?>" alt="" class="img-fluid" /></a>
+                                            <div class="text">
+                                                <h3><a href="detail.html"><?php echo $key->name; ?></a></h3>
+                                                <p class="price"><del></del><?php echo number_format($key->price / 100000); ?></p>
+                                                <p class="buttons">
+                                                    <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </p>
+                                            </div>
+                                            <!-- /.text-->
                                         </div>
-                                        <a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid" /></a>
-                                        <div class="text">
-                                            <h3><a href="detail.html">Fur coat with very but very very long name</a></h3>
-                                            <p class="price"><del></del>$143.00</p>
-                                            <p class="buttons">
-                                                <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                            </p>
-                                        </div>
-                                        <!-- /.text-->
+                                        <!-- /.product            -->
                                     </div>
-                                    <!-- /.product            -->
-                                </div>
-                            <?php } ?>
-                            <div class="col-lg-3 col-md-4">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid" /></a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">White Blouse Armani</a></h3>
-                                        <p class="price"><del>$280</del>$143.00</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text-->
-                                    <div class="ribbon sale">
-                                        <div class="theribbon">SALE</div>
-                                        <div class="ribbon-background"></div>
-                                    </div>
-                                    <!-- /.ribbon-->
-                                    <div class="ribbon new">
-                                        <div class="theribbon">NEW</div>
-                                        <div class="ribbon-background"></div>
-                                    </div>
-                                    <!-- /.ribbon-->
-                                    <div class="ribbon gift">
-                                        <div class="theribbon">GIFT</div>
-                                        <div class="ribbon-background"></div>
-                                    </div>
-                                    <!-- /.ribbon-->
-                                </div>
-                                <!-- /.product            -->
-                            </div>
-                            <div class="col-lg-3 col-md-4">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid" /></a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                                        <p class="price"><del></del>$143.00</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text-->
-                                </div>
-                                <!-- /.product            -->
-                            </div>
-                            <div class="col-lg-3 col-md-4">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid" /></a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                                        <p class="price"><del></del>$143.00</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text-->
-                                </div>
-                                <!-- /.product            -->
-                            </div>
-                            <div class="col-lg-3 col-md-4">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid" /></a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">White Blouse Versace</a></h3>
-                                        <p class="price"><del></del>$143.00</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text-->
-                                    <div class="ribbon new">
-                                        <div class="theribbon">NEW</div>
-                                        <div class="ribbon-background"></div>
-                                    </div>
-                                    <!-- /.ribbon-->
-                                </div>
-                                <!-- /.product            -->
-                            </div>
-                            <div class="col-lg-3 col-md-4">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid" /></a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">Fur coat</a></h3>
-                                        <p class="price"><del></del>$143.00</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text-->
-                                    <div class="ribbon gift">
-                                        <div class="theribbon">GIFT</div>
-                                        <div class="ribbon-background"></div>
-                                    </div>
-                                    <!-- /.ribbon-->
-                                </div>
-                                <!-- /.product            -->
-                            </div>
-                            <div class="col-lg-3 col-md-4">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid" /></a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">White Blouse Armani</a></h3>
-                                        <p class="price"><del>$280</del>$143.00</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text-->
-                                    <div class="ribbon sale">
-                                        <div class="theribbon">SALE</div>
-                                        <div class="ribbon-background"></div>
-                                    </div>
-                                    <!-- /.ribbon-->
-                                    <div class="ribbon new">
-                                        <div class="theribbon">NEW</div>
-                                        <div class="ribbon-background"></div>
-                                    </div>
-                                    <!-- /.ribbon-->
-                                    <div class="ribbon gift">
-                                        <div class="theribbon">GIFT</div>
-                                        <div class="ribbon-background"></div>
-                                    </div>
-                                    <!-- /.ribbon-->
-                                </div>
-                                <!-- /.product            -->
-                            </div>
-                            <div class="col-lg-3 col-md-4">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid" /></a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                                        <p class="price"><del></del>$143.00</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text-->
-                                </div>
-                                <!-- /.product            -->
-                            </div>
+                            <?php }
+                            } ?>
                             <!-- /.products-->
                         </div>
                         <div class="pages">
