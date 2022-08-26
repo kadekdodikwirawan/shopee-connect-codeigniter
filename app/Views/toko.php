@@ -28,7 +28,7 @@
                         </div>
                         <div class="box info-bar">
                             <div class="row">
-                                <div class="col-md-12 col-lg-12 products-number-sort">
+                                <div class="col-md-8 col-lg-8 products-number-sort">
                                     <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
                                         <div class="products-number" x-data='{categories : <?php echo json_encode($category->data->shop_categories); ?>}'>
                                             <template x-for="cat in categories">
@@ -36,6 +36,10 @@
                                             </template>
                                         </div>
                                     </form>
+                                </div>
+                                <div class="col-md-4 col-lg-4 text-right">
+                                    <hr class="d-md-block d-lg-none">
+                                    <button class="btn btn-sm btn-primary btn-lg p-1" data-bs-toggle="modal" data-bs-target="#cartModal"><i class="fa fa-heart fa-2x"></i> <span x-data x-text="$store.favorite.favorited.length"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -61,16 +65,22 @@
                                                 <h3><a href="detail.html"><?php echo $key->name; ?></a></h3>
                                                 <p class="price"><del></del><?php echo number_format($key->price / 100000); ?></p>
                                                 <p class="buttons">
-                                                    <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Beli Sekarang</a>
+                                                    <button x-data x-on:click='$store.favorite.setFav(<?php echo json_encode(
+                                                                                                            array(
+                                                                                                                'itemid' => $key->itemid,
+                                                                                                                'name' => $key->name
+                                                                                                            )
+                                                                                                        ); ?>)' class="btn btn-primary"><i class="fa fa-heart"></i></button>
+                                                <form action="/" method="POST">
+                                                    <input type="hidden" name="link" value="https://shopee.co.id/product/<?php echo $toko->shopid; ?>/<?php echo $key->itemid; ?>">
+                                                    <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Beli Sekarang</button>
+                                                </form>
                                                 </p>
                                             </div>
-                                            <!-- /.text-->
                                         </div>
-                                        <!-- /.product            -->
                                     </div>
                             <?php }
                             } ?>
-                            <!-- /.products-->
                         </div>
                         <div class="pages">
                             <p class="loadMore">
@@ -93,15 +103,35 @@
                             </nav>
                         </div>
                     </div>
-                    <!-- /.col-lg-9-->
                 </div>
             </div>
         </div>
     </div>
-    <!--
-    *** COPYRIGHT ***
-    _________________________________________________________
-    -->
+    <!-- modal  -->
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">My Favorite</h5>
+                </div>
+                <div class="modal-body" x-data="{data: $store.favorite.favorited}">
+                    <template x-if="data.length != 0">
+                        <ul>
+                            <template x-for="fav in $store.favorite.favorited">
+                                <li x-text="fav.name"></li>
+                            </template>
+                        </ul>
+                    </template>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal  -->
     <div id="copyright">
         <div class="container">
             <div class="row">
@@ -109,12 +139,30 @@
                     <p class="text-center text-lg-left">© 2019 Pro Website</p>
                 </div>
                 <div class="col-lg-6">
-                    <p class="text-center text-lg-right">Template design by <a href="#">Bootstrapious</a></p>
+                    <p class="text-center text-lg-right">Template design by <a href="#">Me</a></p>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('favorite', {
+                favorited: JSON.parse(localStorage.getItem('favorited')) || [],
+                setFav(produk) {
+                    let produks = []
+                    if (localStorage.getItem('favorited')) {
+                        produks = JSON.parse(localStorage.getItem('favorited'))
+                        produks.push(produk);
+                        localStorage.setItem('favorited', JSON.stringify(produks))
+                    } else {
+                        produks.push(produk)
+                        localStorage.setItem('favorited', JSON.stringify(produks))
+                    }
+                    this.favorited = produks
+                }
+            })
+        })
     </script>
 </body>
 

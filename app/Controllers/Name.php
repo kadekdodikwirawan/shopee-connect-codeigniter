@@ -42,6 +42,12 @@ class Name extends BaseController
                 // dd($data);
                 return view('toko', $data);
             }
+        } elseif (isset($_POST['link'])) {
+            $link =  $this->getLink();
+            if ($link) {
+                $data['link'] = $link;
+                return view('shopee', $data);
+            }
         } else {
             return view('welcome_message');
         }
@@ -120,7 +126,7 @@ class Name extends BaseController
 
         $shortLink =  $json->data->generateShortLink->shortLink;
         if ($shortLink) {
-            echo $shortLink;
+            return $shortLink;
         }
     }
     public function userAgent()
